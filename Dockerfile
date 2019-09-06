@@ -109,7 +109,7 @@ RUN /tmp/install-python-splash-deps.sh
 # FIXME: use virtualenv
 COPY --from=qt5-builder /usr/lib/python3/dist-packages /usr/lib/python3/dist-packages
 COPY --from=qt5-builder /usr/local/lib/python3.6/dist-packages /usr/local/lib/python3.6/dist-packages
-
+RUN true
 COPY . /app
 RUN pip3 install /app
 ENV PYTHONPATH $PYTHONPATH:/app
@@ -128,13 +128,4 @@ VOLUME [ \
     "/etc/splash/lua_modules" \
 ]
 
-EXPOSE 8050
-
-ENTRYPOINT [ \
-    "python3", \
-    "/app/bin/splash", \
-    "--proxy-profiles-path", "/etc/splash/proxy-profiles", \
-    "--js-profiles-path", "/etc/splash/js-profiles", \
-    "--filters-path", "/etc/splash/filters", \
-    "--lua-package-path", "/etc/splash/lua_modules/?.lua" \
-]
+CMD [ "sh", "/app/run.sh" ]
